@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Christopher Kelf — Freelance Tutor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #111210;
+      --surface:   #191815;
+      --border:    #2e2b26;
+      --muted:     #6b6560;
+      --text:      #f0ece4;
+      --soft:      #b8b0a4;
+      --accent:    #c9a84c;
+      --accent2:   #e2c97e;
+      --cream:     #f5ede0;
+      --serif:     'DM Serif Display', Georgia, serif;
+      --sans:      'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 5vw;
+      background: linear-gradient(to bottom, rgba(17,18,16,.97) 0%, transparent 100%);
+      backdrop-filter: blur(8px);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      letter-spacing: .02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+    .nav-links a {
+      color: var(--soft); text-decoration: none;
+      font-size: .82rem; letter-spacing: .12em; text-transform: uppercase;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 130vh;
+      display: grid; place-items: center;
+      padding: 14rem 5vw 10rem;
+      position: relative; overflow: hidden;
+    }
+
+    /* Background — Snow mountain SVG scene */
+    .hero-bg-image {
+      position: absolute; inset: 0;
+      overflow: hidden;
+    }
+    .mountain-scene {
+      position: absolute; inset: 0;
+    }
+    .hero-bg-image::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 70%, rgba(201,168,76,.15) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 10% 60%, rgba(226,201,126,.08) 0%, transparent 40%);
+    }
+
+    /* Overlay — blends mountain scene, keeps all text legible */
+    .hero-overlay {
+      position: absolute; inset: 0; pointer-events: none; z-index: 2;
+      background:
+        linear-gradient(to bottom,
+          rgba(10,12,14,.72)  0%,
+          rgba(13,15,16,.62)  35%,
+          rgba(15,16,14,.78)  65%,
+          rgba(17,18,16,1)   100%);
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0; pointer-events: none; z-index: 3;
+      background:
+        radial-gradient(ellipse 55% 45% at 50% 65%, rgba(201,168,76,.12) 0%, transparent 65%),
+        radial-gradient(ellipse 35% 35% at 15% 75%, rgba(226,201,126,.07) 0%, transparent 55%);
+    }
+    .hero-grid-lines {
+      position: absolute; inset: 0; pointer-events: none; z-index: 3;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
+    }
+    .hero-inner { z-index: 4; }
+    .scroll-hint { z-index: 4; }
+    .hero-inner {
+      position: relative; text-align: center; max-width: 860px;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.6rem;
+      border: 1px solid rgba(201,168,76,.35);
+      padding: .35rem 1rem; border-radius: 2px;
+      animation: fadeUp .8s ease both;
+    }
+    h1.hero-headline {
+      font-family: var(--serif);
+      font-size: clamp(3.2rem, 8vw, 7rem);
+      line-height: 1.05;
+      letter-spacing: -.01em;
+      color: var(--text);
+      text-shadow: 0 2px 24px rgba(0,0,0,.8), 0 1px 6px rgba(0,0,0,.9);
+      animation: fadeUp .9s .12s ease both;
+    }
+    h1.hero-headline em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-tagline {
+      margin-top: 1.8rem;
+      font-size: clamp(.95rem, 2vw, 1.15rem);
+      color: var(--soft);
+      max-width: 520px; margin-left: auto; margin-right: auto;
+      text-shadow: 0 1px 12px rgba(0,0,0,.9);
+      animation: fadeUp .9s .24s ease both;
+    }
+    .hero-cta {
+      margin-top: 3rem;
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp .9s .36s ease both;
+    }
+    .btn {
+      display: inline-block; text-decoration: none;
+      padding: .85rem 2rem; border-radius: 3px;
+      font-family: var(--sans); font-size: .82rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      transition: all .25s;
+    }
+    .btn-primary {
+      background: var(--accent); color: var(--cream); font-weight: 500;
+    }
+    .btn-primary:hover { background: #d9b85a; transform: translateY(-2px); }
+    .btn-ghost {
+      border: 1px solid var(--border); color: var(--soft);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      color: var(--muted); font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+      animation: fadeUp .9s .5s ease both;
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+
+    /* ── SECTIONS SHARED ── */
+    section { padding: 7rem 5vw; }
+    .section-label {
+      font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: .8rem;
+    }
+    h2.section-title {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      line-height: 1.1;
+      color: var(--text);
+    }
+    .divider {
+      width: 40px; height: 2px;
+      background: var(--accent);
+      margin: 1.6rem 0;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--surface); }
+    .about-wrap {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+    .about-portrait {
+      position: relative;
+    }
+    .portrait-placeholder {
+      aspect-ratio: 4/5;
+      background: linear-gradient(145deg, #222018 0%, #1c1a14 100%);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: .8rem; color: var(--muted); font-size: .8rem; letter-spacing: .1em; text-transform: uppercase;
+      overflow: hidden; position: relative;
+    }
+    .portrait-placeholder::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,.10), transparent 60%);
+    }
+    .portrait-icon {
+      width: 64px; height: 64px;
+      border: 1px solid var(--border); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; opacity: .5;
+    }
+    .about-accent-box {
+      position: absolute; top: -16px; right: -16px;
+      width: 90px; height: 90px;
+      border: 1px solid rgba(201,168,76,.28);
+      border-radius: 2px; pointer-events: none;
+    }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem;
+    }
+    .stat-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 4px; padding: 1.4rem 1.2rem;
+    }
+    .stat-number {
+      font-family: var(--serif); font-size: 2.4rem; color: var(--accent); line-height: 1;
+    }
+    .stat-label { font-size: .75rem; color: var(--soft); letter-spacing: .08em; margin-top: .3rem; }
+
+    .about-text p { color: var(--soft); margin-bottom: 1rem; font-size: .97rem; }
+    .subjects {
+      display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.8rem;
+    }
+    .subject-tag {
+      border: 1px solid var(--border); border-radius: 2px;
+      padding: .3rem .85rem; font-size: .75rem; letter-spacing: .08em;
+      color: var(--soft); text-transform: uppercase;
+      transition: all .2s;
+    }
+    .subject-tag:hover { border-color: var(--accent2); color: var(--accent2); }
+
+    /* ── GALLERY ── */
+    #gallery { background: var(--bg); }
+    .gallery-header { max-width: 1100px; margin: 0 auto 3rem; }
+    .gallery-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 1rem;
+    }
+    .gallery-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px; overflow: hidden;
+      position: relative; cursor: pointer;
+      transition: transform .3s, border-color .3s;
+    }
+    .gallery-item:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .gallery-item:nth-child(1) { grid-column: span 2; }
+    .gallery-item:nth-child(5) { grid-column: span 2; }
+    .gallery-img {
+      width: 100%; aspect-ratio: 16/10;
+      background: #111210;
+      display: block;
+      position: relative; overflow: hidden;
+      transition: opacity .3s;
+    }
+    .gallery-item:hover .gallery-img { opacity: .88; }
+    .gallery-item:nth-child(1) .gallery-img,
+    .gallery-item:nth-child(5) .gallery-img { aspect-ratio: 21/10; }
+    .gallery-caption {
+      padding: .9rem 1rem .8rem;
+      font-size: .78rem; color: var(--soft);
+    }
+    .gallery-caption strong { display: block; color: var(--text); font-weight: 500; margin-bottom: .1rem; font-size: .82rem; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--surface); }
+    .testimonials-header {
+      max-width: 1100px; margin: 0 auto 4rem;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+    }
+    .testimonials-header-left { }
+    .testimonials-subtext {
+      font-size: .95rem; color: var(--soft); max-width: 340px; margin-top: .6rem;
+    }
+    .testimonials-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .testimonial-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2.2rem 2rem 2rem;
+      display: flex; flex-direction: column; gap: 1.6rem;
+      position: relative; overflow: hidden;
+      transition: transform .3s, border-color .3s;
+    }
+    .testimonial-card:hover { transform: translateY(-4px); border-color: rgba(201,168,76,.4); }
+    .testimonial-card::before {
+      content: '\201C';
+      position: absolute; top: -10px; left: 1.4rem;
+      font-family: var(--serif); font-size: 7rem; line-height: 1;
+      color: var(--accent); opacity: .12; pointer-events: none;
+    }
+    .testimonial-card:nth-child(2) { margin-top: 1.8rem; }
+    .testimonial-stars {
+      display: flex; gap: .2rem;
+    }
+    .star { color: var(--accent); font-size: .85rem; }
+    .testimonial-quote {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: var(--text);
+      flex: 1;
+    }
+    .testimonial-author {
+      display: flex; align-items: center; gap: .9rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border);
+    }
+    .author-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(135deg, #2a2820, #1e1c18);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .author-name {
+      font-size: .88rem; font-weight: 500; color: var(--text); letter-spacing: .02em;
+    }
+    .author-detail {
+      font-size: .75rem; color: var(--muted); margin-top: .15rem; letter-spacing: .04em;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--surface); }
+    .contact-wrap {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+    }
+    .contact-info { }
+    .contact-info p { color: var(--soft); font-size: .97rem; margin-bottom: 1.8rem; }
+    .contact-items { display: flex; flex-direction: column; gap: 1.1rem; }
+    .contact-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .contact-item-icon {
+      width: 38px; height: 38px; border-radius: 3px;
+      background: var(--bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: .9rem;
+    }
+    .contact-item-text { font-size: .88rem; color: var(--soft); }
+    .contact-item-text strong { display: block; color: var(--text); font-weight: 500; font-size: .82rem; letter-spacing: .05em; margin-bottom: .1rem; }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: .45rem; }
+    .form-group label {
+      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 3px; padding: .8rem 1rem;
+      color: var(--text); font-family: var(--sans); font-size: .9rem; font-weight: 300;
+      outline: none; transition: border-color .25s;
+      resize: none;
+      -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--accent); }
+    .form-group textarea { min-height: 130px; }
+    .form-submit { align-self: flex-start; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 2.4rem 5vw;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    footer p { font-size: .78rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.8rem; }
+    .footer-links a { font-size: .78rem; color: var(--muted); text-decoration: none; letter-spacing: .06em; transition: color .2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: .3; }
+      50%       { opacity: 1; }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 5vw; }
+      .nav-links { display: none; }
+
+      #hero { padding: 7rem 5vw 5rem; }
+
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .testimonial-card:nth-child(2) { margin-top: 0; }
+      .testimonials-header { flex-direction: column; align-items: flex-start; }
+      .about-accent-box { display: none; }
+
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:nth-child(1),
+      .gallery-item:nth-child(5) { grid-column: span 2; }
+
+      .form-row { grid-template-columns: 1fr; }
+
+      footer { flex-direction: column; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      section { padding: 5rem 5vw; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item:nth-child(1),
+      .gallery-item:nth-child(5) { grid-column: span 1; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">Christopher Kelf</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-image">
+    <div class="mountain-scene">
+      <!-- Snow mountain: starry sky, layered peaks, snow glow -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
+        <defs>
+          <linearGradient id="sk" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#060810"/>
+            <stop offset="50%" stop-color="#0e1220"/>
+            <stop offset="100%" stop-color="#141210"/>
+          </linearGradient>
+          <radialGradient id="moonGlow" cx="72%" cy="18%" r="12%">
+            <stop offset="0%" stop-color="#e8dfc8" stop-opacity="0.9"/>
+            <stop offset="40%" stop-color="#c8b882" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="peakGlow" cx="50%" cy="52%" r="40%">
+            <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="pk1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c8d4e8"/>
+            <stop offset="35%" stop-color="#8090a8"/>
+            <stop offset="100%" stop-color="#2a2e38"/>
+          </linearGradient>
+          <linearGradient id="pk2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a404e"/>
+            <stop offset="100%" stop-color="#1a1c22"/>
+          </linearGradient>
+          <linearGradient id="pk3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e2028"/>
+            <stop offset="100%" stop-color="#111210"/>
+          </linearGradient>
+          <filter id="sf"><feGaussianBlur stdDeviation="2"/></filter>
+          <filter id="mf"><feGaussianBlur stdDeviation="4"/></filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="1440" height="900" fill="url(#sk)"/>
+        <!-- Stars -->
+        <circle cx="120" cy="70" r="1.2" fill="#fff" opacity=".7"/><circle cx="210" cy="45" r=".8" fill="#fff" opacity=".5"/>
+        <circle cx="340" cy="90" r="1.0" fill="#fff" opacity=".6"/><circle cx="480" cy="55" r=".9" fill="#fff" opacity=".55"/>
+        <circle cx="600" cy="80" r="1.1" fill="#fff" opacity=".65"/><circle cx="720" cy="40" r=".7" fill="#fff" opacity=".5"/>
+        <circle cx="850" cy="65" r="1.0" fill="#fff" opacity=".6"/><circle cx="980" cy="50" r="1.2" fill="#fff" opacity=".7"/>
+        <circle cx="1100" cy="85" r=".8" fill="#fff" opacity=".5"/><circle cx="1230" cy="60" r="1.0" fill="#fff" opacity=".6"/>
+        <circle cx="1380" cy="75" r=".9" fill="#fff" opacity=".55"/><circle cx="60" cy="140" r=".7" fill="#fff" opacity=".4"/>
+        <circle cx="190" cy="160" r=".8" fill="#fff" opacity=".45"/><circle cx="420" cy="130" r=".6" fill="#fff" opacity=".4"/>
+        <circle cx="670" cy="150" r=".9" fill="#fff" opacity=".5"/><circle cx="900" cy="130" r=".7" fill="#fff" opacity=".45"/>
+        <circle cx="1150" cy="155" r=".8" fill="#fff" opacity=".4"/><circle cx="1320" cy="140" r=".6" fill="#fff" opacity=".38"/>
+        <!-- Moon -->
+        <circle cx="1037" cy="162" r="28" fill="#e8dfc8" opacity=".88"/>
+        <circle cx="1037" cy="162" r="28" fill="url(#moonGlow)"/>
+        <!-- Moon craters subtle -->
+        <circle cx="1028" cy="155" r="5" fill="#d4c9a8" opacity=".4"/>
+        <circle cx="1048" cy="168" r="3.5" fill="#d4c9a8" opacity=".3"/>
+        <!-- Far peaks layer -->
+        <path d="M0,580 L80,500 L160,540 L240,475 L320,510 L400,460 L480,495 L560,448 L640,480 L720,435 L800,465 L880,420 L960,455 L1040,408 L1120,445 L1200,418 L1280,450 L1360,425 L1440,440 L1440,900 L0,900Z" fill="url(#pk2)" opacity=".75" filter="url(#sf)"/>
+        <!-- MAIN CENTRAL PEAK — tall, dramatic, snow-capped -->
+        <path d="M520,560 L620,390 L660,340 L700,280 L720,220 L740,280 L760,340 L800,390 L900,560Z" fill="url(#pk1)"/>
+        <!-- Snow detail on main peak -->
+        <path d="M680,290 L700,220 L720,290 L710,310 L700,320 L690,310Z" fill="#f0f4f8" opacity=".9"/>
+        <path d="M695,305 L720,230 L745,305 L732,325 L720,335 L708,325Z" fill="#dde4ee" opacity=".6"/>
+        <!-- Shadow side of main peak -->
+        <path d="M700,220 L720,220 L800,390 L760,370 L740,310 L720,260Z" fill="#2a3040" opacity=".55"/>
+        <!-- Secondary peaks flanking -->
+        <path d="M300,600 L380,470 L420,420 L460,480 L520,560Z" fill="url(#pk1)" opacity=".8"/>
+        <path d="M420,420 L440,390 L460,420 L450,440Z" fill="#e8eef4" opacity=".7"/>
+        <path d="M900,560 L960,460 L1000,410 L1040,460 L1100,580Z" fill="url(#pk1)" opacity=".8"/>
+        <path d="M1000,410 L1020,378 L1040,410 L1030,432Z" fill="#e8eef4" opacity=".7"/>
+        <!-- Far flanking hills -->
+        <path d="M0,680 L120,600 L240,640 L360,590 L460,625 L300,900 L0,900Z" fill="url(#pk3)"/>
+        <path d="M980,625 L1100,585 L1220,620 L1340,580 L1440,610 L1440,900 L900,900Z" fill="url(#pk3)"/>
+        <!-- Peak glow reflection on snow -->
+        <ellipse cx="720" cy="480" rx="200" ry="60" fill="url(#peakGlow)" filter="url(#mf)"/>
+        <!-- Foreground ground dark -->
+        <path d="M0,800 L200,760 L400,780 L600,755 L720,765 L840,755 L1040,775 L1240,760 L1440,780 L1440,900 L0,900Z" fill="#0c0d0b"/>
+      </svg>
+    </div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-inner">
+    <span class="hero-eyebrow">Freelance Tutoring Teacher</span>
+    <h1 class="hero-headline">
+      Unlocking<br><em>Potential,</em><br>One Student at a Time
+    </h1>
+    <p class="hero-tagline">
+      Personalised, results-driven tutoring that builds confidence, deepens understanding, and turns academic challenges into lifelong strengths.
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary">Book a Session</a>
+      <a href="#about" class="btn btn-ghost">Learn More</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-wrap">
+    <div class="about-portrait">
+      <div class="portrait-placeholder" style="padding:0;overflow:hidden;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" style="width:100%;height:100%;display:block">
+          <defs>
+            <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1e1c18"/>
+              <stop offset="100%" stop-color="#141210"/>
+            </linearGradient>
+            <linearGradient id="jacketGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2a3040"/>
+              <stop offset="100%" stop-color="#1a2030"/>
+            </linearGradient>
+            <linearGradient id="shirtGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e8e0cc"/>
+              <stop offset="100%" stop-color="#d8d0bc"/>
+            </linearGradient>
+            <radialGradient id="faceGrad" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#e8b880"/>
+              <stop offset="100%" stop-color="#c89050"/>
+            </radialGradient>
+            <radialGradient id="glowBg" cx="50%" cy="80%" r="55%">
+              <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.12"/>
+              <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="softShadow">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/>
+            </filter>
+          </defs>
+
+          <!-- Background -->
+          <rect width="400" height="500" fill="url(#bgGrad)"/>
+          <rect width="400" height="500" fill="url(#glowBg)"/>
+
+          <!-- Subtle bookshelf suggestion in bg -->
+          <rect x="20" y="60" width="12" height="80" rx="2" fill="#c9a84c" opacity=".12"/>
+          <rect x="36" y="70" width="10" height="70" rx="2" fill="#8a6a2a" opacity=".10"/>
+          <rect x="50" y="65" width="14" height="75" rx="2" fill="#3a5070" opacity=".10"/>
+          <rect x="340" y="55" width="12" height="85" rx="2" fill="#c9a84c" opacity=".10"/>
+          <rect x="355" y="68" width="10" height="72" rx="2" fill="#6a4a18" opacity=".10"/>
+
+          <!-- BODY / JACKET -->
+          <!-- Jacket outer shape — wide caricature shoulders -->
+          <path d="M60,500 L60,370 Q60,330 100,315 L148,298 L200,310 L252,298 L300,315 Q340,330 340,370 L340,500Z"
+                fill="url(#jacketGrad)" filter="url(#softShadow)"/>
+          <!-- Jacket lapels -->
+          <path d="M200,310 L172,340 L160,420 L200,400Z" fill="#1a2535"/>
+          <path d="M200,310 L228,340 L240,420 L200,400Z" fill="#1a2535"/>
+          <!-- Shirt visible between lapels -->
+          <path d="M200,310 L185,340 L192,420 L200,415 L208,420 L215,340Z" fill="url(#shirtGrad)"/>
+          <!-- Tie — gold, caricature-wide -->
+          <path d="M200,318 L191,345 L196,430 L200,440 L204,430 L209,345Z" fill="#c9a84c"/>
+          <path d="M194,342 L206,342 L209,345 L191,345Z" fill="#a88830"/>
+          <!-- Tie stripe detail -->
+          <line x1="197" y1="365" x2="203" y2="365" stroke="#a88830" stroke-width="1.5" opacity=".7"/>
+          <line x1="196" y1="385" x2="204" y2="385" stroke="#a88830" stroke-width="1.5" opacity=".7"/>
+          <line x1="196" y1="405" x2="204" y2="405" stroke="#a88830" stroke-width="1.5" opacity=".7"/>
+          <!-- Jacket buttons -->
+          <circle cx="200" cy="450" r="4" fill="#3a4858"/>
+          <circle cx="200" cy="470" r="4" fill="#3a4858"/>
+          <!-- Pocket handkerchief -->
+          <path d="M278,340 L296,338 L294,355 L280,353Z" fill="#1a2535"/>
+          <path d="M280,338 L294,336 L292,342Z" fill="#e8dfc8" opacity=".7"/>
+
+          <!-- NECK -->
+          <rect x="180" y="272" width="40" height="45" rx="8" fill="#d4a060"/>
+          <!-- Collar -->
+          <path d="M178,290 L165,310 L185,305Z" fill="url(#shirtGrad)"/>
+          <path d="M222,290 L235,310 L215,305Z" fill="url(#shirtGrad)"/>
+
+          <!-- HEAD — large, caricature-proportioned -->
+          <ellipse cx="200" cy="210" rx="92" ry="105" fill="url(#faceGrad)" filter="url(#softShadow)"/>
+
+          <!-- EAR left -->
+          <ellipse cx="110" cy="218" rx="16" ry="22" fill="#d4a060"/>
+          <ellipse cx="112" cy="218" rx="9" ry="14" fill="#c49050" opacity=".6"/>
+          <!-- EAR right -->
+          <ellipse cx="290" cy="218" rx="16" ry="22" fill="#d4a060"/>
+          <ellipse cx="288" cy="218" rx="9" ry="14" fill="#c49050" opacity=".6"/>
+
+          <!-- HAIR — dark, slightly tousled, professorial -->
+          <path d="M112,170 Q118,90 200,82 Q282,90 288,170 Q270,145 248,140 Q225,130 200,132 Q175,130 152,140 Q130,145 112,170Z"
+                fill="#2a2018"/>
+          <!-- Hair side parts / volume -->
+          <path d="M112,170 Q108,140 118,115 Q130,95 148,90 Q175,82 200,82" fill="#2a2018"/>
+          <path d="M288,170 Q292,140 282,115 Q270,95 252,90 Q225,82 200,82" fill="#2a2018"/>
+          <!-- Hair highlight -->
+          <path d="M165,95 Q200,88 232,97" stroke="#4a3828" stroke-width="4" fill="none" opacity=".5"/>
+          <!-- Small tousled bits -->
+          <path d="M185,84 Q192,76 200,82" stroke="#2a2018" stroke-width="5" fill="none"/>
+          <path d="M215,86 Q222,78 228,84" stroke="#2a2018" stroke-width="4" fill="none"/>
+
+          <!-- GLASSES — round, professorial caricature -->
+          <!-- Left lens frame -->
+          <circle cx="170" cy="210" r="32" fill="none" stroke="#c9a84c" stroke-width="3.5"/>
+          <circle cx="170" cy="210" r="30" fill="#c9a84c" fill-opacity=".07"/>
+          <!-- Right lens frame -->
+          <circle cx="232" cy="210" r="32" fill="none" stroke="#c9a84c" stroke-width="3.5"/>
+          <circle cx="232" cy="210" r="30" fill="#c9a84c" fill-opacity=".07"/>
+          <!-- Bridge -->
+          <path d="M202,210 Q201,206 198,210" stroke="#c9a84c" stroke-width="3" fill="none"/>
+          <!-- Temples -->
+          <line x1="138" y1="204" x2="118" y2="210" stroke="#c9a84c" stroke-width="3"/>
+          <line x1="264" y1="204" x2="284" y2="210" stroke="#c9a84c" stroke-width="3"/>
+          <!-- Lens glint -->
+          <path d="M158,198 Q162,194 168,196" stroke="#fff" stroke-width="1.5" fill="none" opacity=".5"/>
+          <path d="M220,198 Q224,194 230,196" stroke="#fff" stroke-width="1.5" fill="none" opacity=".5"/>
+
+          <!-- EYEBROWS — thick, expressive, raised in friendly way -->
+          <path d="M142,182 Q158,172 188,178" stroke="#2a2018" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M212,178 Q242,172 258,182" stroke="#2a2018" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+          <!-- EYES behind glasses -->
+          <ellipse cx="170" cy="212" rx="12" ry="10" fill="#1a1410"/>
+          <ellipse cx="232" cy="212" rx="12" ry="10" fill="#1a1410"/>
+          <!-- Iris -->
+          <circle cx="172" cy="212" r="7" fill="#5a4830"/>
+          <circle cx="234" cy="212" r="7" fill="#5a4830"/>
+          <!-- Pupil -->
+          <circle cx="173" cy="213" r="4" fill="#0a0808"/>
+          <circle cx="235" cy="213" r="4" fill="#0a0808"/>
+          <!-- Eye shine -->
+          <circle cx="175" cy="210" r="2" fill="#fff" opacity=".8"/>
+          <circle cx="237" cy="210" r="2" fill="#fff" opacity=".8"/>
+
+          <!-- NOSE — round, caricature bulbous -->
+          <ellipse cx="200" cy="238" rx="18" ry="14" fill="#c89050" opacity=".7"/>
+          <circle cx="191" cy="244" r="7" fill="#b87a3a" opacity=".5"/>
+          <circle cx="209" cy="244" r="7" fill="#b87a3a" opacity=".5"/>
+          <!-- Nose bridge -->
+          <path d="M196,218 Q194,230 191,240" stroke="#b87a3a" stroke-width="1.5" fill="none" opacity=".4"/>
+
+          <!-- MOUTH — big warm smile, caricature wide -->
+          <path d="M162,268 Q200,298 238,268" stroke="#8a4820" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- Teeth showing -->
+          <path d="M168,272 Q200,295 232,272 Q216,280 200,282 Q184,280 168,272Z" fill="#f0ece4" opacity=".9"/>
+          <!-- Smile lines -->
+          <path d="M158,262 Q152,274 156,284" stroke="#c89050" stroke-width="2" fill="none" opacity=".5"/>
+          <path d="M242,262 Q248,274 244,284" stroke="#c89050" stroke-width="2" fill="none" opacity=".5"/>
+
+          <!-- CHIN dimple -->
+          <path d="M197,300 Q200,306 203,300" stroke="#b87a3a" stroke-width="1.5" fill="none" opacity=".4"/>
+
+          <!-- ARMS - left holding a book -->
+          <path d="M100,315 Q70,340 65,390 L90,395 Q95,355 118,335Z" fill="url(#jacketGrad)"/>
+          <!-- Book in left hand -->
+          <rect x="42" y="385" width="58" height="78" rx="4" fill="#c9a84c" opacity=".9" transform="rotate(-8 71 424)"/>
+          <rect x="46" y="389" width="50" height="70" rx="2" fill="#b89030" opacity=".7" transform="rotate(-8 71 424)"/>
+          <text x="48" y="418" font-family="Georgia,serif" font-size="9" fill="#f0e8c0" transform="rotate(-8 48 418)" opacity=".9">MATHS</text>
+          <text x="50" y="432" font-family="Georgia,serif" font-size="8" fill="#f0e8c0" transform="rotate(-8 50 432)" opacity=".8">GUIDE</text>
+
+          <!-- Right arm pointing upward (teaching gesture) -->
+          <path d="M300,315 Q330,335 340,300 L320,290 Q312,318 292,328Z" fill="url(#jacketGrad)"/>
+          <!-- Hand pointing -->
+          <ellipse cx="334" cy="286" rx="14" ry="12" fill="#d4a060" transform="rotate(-20 334 286)"/>
+          <!-- Pointing finger extended -->
+          <path d="M332,276 Q334,255 336,240" stroke="#d4a060" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <path d="M336,240 Q337,232 336,226" stroke="#d4a060" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <!-- Other fingers curled suggestion -->
+          <path d="M322,280 Q316,268 318,262" stroke="#c49050" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <path d="M344,282 Q348,270 346,264" stroke="#c49050" stroke-width="7" fill="none" stroke-linecap="round"/>
+
+          <!-- Gold accent glow under figure -->
+          <ellipse cx="200" cy="496" rx="120" ry="10" fill="#c9a84c" opacity=".18"/>
+        </svg>
+      </div>
+      <div class="about-accent-box"></div>
+    </div>
+    <div class="about-text">
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">Passionate about<br>making learning<br><em style="font-family:var(--serif);font-style:italic;color:var(--accent)">click.</em></h2>
+      <div class="divider"></div>
+      <p>Hi, I'm Christopher Kelf — a dedicated freelance tutor with over twenty-eight years of experience helping students from primary school through to university level. I believe every learner has a unique way of understanding the world, and my role is to find that path together.</p>
+      <p>My approach is built on patience, clear explanation, and genuine curiosity. I tailor every session to the individual, focusing not just on exam preparation but on building a real and lasting understanding of the material.</p>
+      <p>Whether you're struggling to catch up, aiming to excel, or preparing for a major exam, I'm here to help you get there with confidence.</p>
+      <div class="subjects">
+        <span class="subject-tag">Mathematics</span>
+        <span class="subject-tag">Physics</span>
+        <span class="subject-tag">Chemistry</span>
+        <span class="subject-tag">English</span>
+        <span class="subject-tag">Biology</span>
+        <span class="subject-tag">Test Prep</span>
+        <span class="subject-tag">Study Skills</span>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-number">28+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">200+</div>
+          <div class="stat-label">Students Taught</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">95%</div>
+          <div class="stat-label">Grade Improvement</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">★ 5.0</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gallery-header">
+    <p class="section-label">Gallery</p>
+    <h2 class="section-title">Sessions, Spaces<br>&amp; Student Wins</h2>
+  </div>
+  <div class="gallery-grid">
+
+    <!-- 1: One-on-One Session -->
+    <div class="gallery-item">
+      <div class="gallery-img">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 530" style="width:100%;height:100%;display:block">
+          <defs>
+            <linearGradient id="g1bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a1c18"/><stop offset="100%" stop-color="#111210"/></linearGradient>
+            <linearGradient id="g1desk" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2e1a"/><stop offset="100%" stop-color="#2a2010"/></linearGradient>
+          </defs>
+          <rect width="900" height="530" fill="url(#g1bg)"/>
+          <!-- Window glow -->
+          <rect x="680" y="40" width="160" height="220" rx="4" fill="#1a2235" opacity=".9"/>
+          <rect x="690" y="50" width="140" height="200" rx="2" fill="#c9a84c" opacity=".08"/>
+          <!-- Desk -->
+          <rect x="100" y="340" width="700" height="18" rx="4" fill="url(#g1desk)"/>
+          <rect x="160" y="358" width="20" height="120" fill="#2a2010"/>
+          <rect x="720" y="358" width="20" height="120" fill="#2a2010"/>
+          <!-- Books on desk -->
+          <rect x="200" y="295" width="28" height="46" rx="2" fill="#c9a84c" opacity=".85"/>
+          <rect x="232" y="300" width="24" height="41" rx="2" fill="#8a6a2a" opacity=".8"/>
+          <rect x="258" y="305" width="20" height="36" rx="2" fill="#b8901e" opacity=".75"/>
+          <!-- Notebook open -->
+          <rect x="340" y="285" width="120" height="56" rx="3" fill="#e8e0cc" opacity=".9"/>
+          <line x1="400" y1="288" x2="400" y2="338" stroke="#c0b898" stroke-width="1.5"/>
+          <line x1="355" y1="300" x2="392" y2="300" stroke="#8a8070" stroke-width="1" opacity=".6"/>
+          <line x1="355" y1="310" x2="392" y2="310" stroke="#8a8070" stroke-width="1" opacity=".6"/>
+          <line x1="355" y1="320" x2="392" y2="320" stroke="#8a8070" stroke-width="1" opacity=".6"/>
+          <line x1="408" y1="300" x2="450" y2="300" stroke="#8a8070" stroke-width="1" opacity=".6"/>
+          <line x1="408" y1="310" x2="450" y2="310" stroke="#8a8070" stroke-width="1" opacity=".6"/>
+          <!-- Pencil -->
+          <rect x="475" y="300" width="8" height="55" rx="2" transform="rotate(-15 479 327)" fill="#e2c97e" opacity=".9"/>
+          <!-- Lamp -->
+          <rect x="580" y="210" width="6" height="132" fill="#5a5040"/>
+          <polygon points="545,210 625,210 610,240 560,240" fill="#c9a84c" opacity=".7"/>
+          <ellipse cx="585" cy="240" rx="30" ry="10" fill="#c9a84c" opacity=".2" filter="blur(6px)"/>
+          <!-- Person 1 (teacher) sitting left -->
+          <ellipse cx="220" cy="245" rx="36" ry="36" fill="#c9a84c" opacity=".25"/>
+          <circle cx="220" cy="228" r="22" fill="#d4a870"/>
+          <rect x="188" y="256" width="64" height="58" rx="16" fill="#4a3820"/>
+          <!-- Person 2 (student) sitting right -->
+          <ellipse cx="490" cy="245" rx="36" ry="36" fill="#c9a84c" opacity=".15"/>
+          <circle cx="490" cy="228" r="22" fill="#b89060"/>
+          <rect x="460" y="256" width="60" height="58" rx="16" fill="#2a3848"/>
+          <!-- Warm desk lamp glow -->
+          <ellipse cx="410" cy="310" rx="120" ry="20" fill="#c9a84c" opacity=".07"/>
+          <!-- Label -->
+          <text x="450" y="500" text-anchor="middle" font-family="Georgia,serif" font-size="18" fill="#c9a84c" opacity=".7">One-on-One Session</text>
+        </svg>
+      </div>
+      <div class="gallery-caption">
+        <strong>One-on-One Session</strong>
+        In-person tutoring, fully tailored to the student's needs.
+      </div>
+    </div>
+
+    <!-- 2: Online Whiteboard -->
+    <div class="gallery-item">
+      <div class="gallery-img">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 530 330" style="width:100%;height:100%;display:block">
+          <defs>
+            <linearGradient id="g2bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#141618"/><stop offset="100%" stop-color="#0e1014"/></linearGradient>
+          </defs>
+          <rect width="530" height="330" fill="url(#g2bg)"/>
+          <!-- Laptop body -->
+          <rect x="90" y="165" width="350" height="8" rx="4" fill="#2a2820"/>
+          <rect x="110" y="75" width="310" height="195" rx="6" fill="#1e2028"/>
+          <rect x="118" y="83" width="294" height="179" rx="3" fill="#0a1020"/>
+          <!-- Screen content: video call grid -->
+          <rect x="122" y="87" width="140" height="88" rx="2" fill="#1a2535"/>
+          <circle cx="192" cy="117" r="18" fill="#c9a84c" opacity=".4"/>
+          <rect x="170" y="137" width="44" height="30" rx="8" fill="#8a6a30" opacity=".6"/>
+          <rect x="270" y="87" width="138" height="88" rx="2" fill="#1e2830"/>
+          <circle cx="339" cy="117" r="18" fill="#6a8090" opacity=".4"/>
+          <rect x="317" y="137" width="44" height="30" rx="8" fill="#304050" opacity=".6"/>
+          <!-- Whiteboard panel bottom of screen -->
+          <rect x="122" y="182" width="286" height="72" rx="2" fill="#f0ece4" opacity=".92"/>
+          <text x="155" y="205" font-family="Georgia,serif" font-size="13" fill="#2a2820">y = mx + c</text>
+          <line x1="140" y1="218" x2="395" y2="218" stroke="#c0b898" stroke-width="1" opacity=".4"/>
+          <path d="M160,240 Q200,225 240,235 Q280,245 320,228 Q350,215 390,230" stroke="#c9a84c" stroke-width="2" fill="none" opacity=".7"/>
+          <!-- Keyboard -->
+          <rect x="118" y="264" width="294" height="4" rx="2" fill="#2a2820" opacity=".8"/>
+          <!-- Trackpad -->
+          <rect x="215" y="155" width="100" height="60" rx="3" fill="#161820"/>
+          <!-- Glow from screen -->
+          <ellipse cx="265" cy="260" rx="130" ry="18" fill="#c9a84c" opacity=".06"/>
+          <text x="265" y="315" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#c9a84c" opacity=".7">Online Whiteboard</text>
+        </svg>
+      </div>
+      <div class="gallery-caption">
+        <strong>Online Whiteboard</strong>
+        Interactive remote sessions via digital tools.
+      </div>
+    </div>
+
+    <!-- 3: Study Resources -->
+    <div class="gallery-item">
+      <div class="gallery-img">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 530 330" style="width:100%;height:100%;display:block">
+          <defs>
+            <linearGradient id="g3bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#181614"/><stop offset="100%" stop-color="#0e0c0a"/></linearGradient>
+          </defs>
+          <rect width="530" height="330" fill="url(#g3bg)"/>
+          <!-- Desk surface -->
+          <rect x="0" y="240" width="530" height="90" fill="#2a2010" opacity=".7"/>
+          <!-- Open textbook -->
+          <rect x="60" y="155" width="200" height="150" rx="4" fill="#e8e0cc"/>
+          <line x1="160" y1="158" x2="160" y2="302" stroke="#c0b098" stroke-width="2"/>
+          <!-- Left page lines -->
+          <line x1="75" y1="180" x2="150" y2="180" stroke="#8a8070" stroke-width="1" opacity=".5"/>
+          <line x1="75" y1="192" x2="150" y2="192" stroke="#8a8070" stroke-width="1" opacity=".5"/>
+          <line x1="75" y1="204" x2="150" y2="204" stroke="#8a8070" stroke-width="1" opacity=".5"/>
+          <line x1="75" y1="216" x2="150" y2="216" stroke="#8a8070" stroke-width="1" opacity=".5"/>
+          <line x1="75" y1="228" x2="150" y2="228" stroke="#8a8070" stroke-width="1" opacity=".5"/>
+          <!-- Diagram right page -->
+          <rect x="172" y="178" width="70" height="50" rx="2" fill="#c9a84c" opacity=".2"/>
+          <path d="M172,228 L207,195 L242,228Z" fill="#c9a84c" opacity=".35"/>
+          <line x1="172" y1="240" x2="242" y2="240" stroke="#8a8070" stroke-width="1" opacity=".5"/>
+          <line x1="172" y1="252" x2="242" y2="252" stroke="#8a8070" stroke-width="1" opacity=".5"/>
+          <!-- Stacked books -->
+          <rect x="280" y="190" width="170" height="22" rx="2" fill="#8a6a2a"/>
+          <rect x="285" y="170" width="160" height="22" rx="2" fill="#c9a84c" opacity=".8"/>
+          <rect x="290" y="150" width="150" height="22" rx="2" fill="#6a4a18"/>
+          <rect x="280" y="212" width="170" height="22" rx="2" fill="#3a5070"/>
+          <!-- Book spines text -->
+          <text x="295" y="185" font-family="Georgia,serif" font-size="9" fill="#e8dfc8" opacity=".8">MATHEMATICS</text>
+          <text x="303" y="165" font-family="Georgia,serif" font-size="9" fill="#1a1210" opacity=".9">PHYSICS</text>
+          <!-- Pencil case / pen -->
+          <rect x="60" y="310" width="140" height="12" rx="6" fill="#c9a84c" opacity=".5"/>
+          <circle cx="200" cy="316" r="6" fill="#e8dfc8" opacity=".6"/>
+          <!-- Ruler -->
+          <rect x="220" y="308" width="170" height="10" rx="2" fill="#e8e0cc" opacity=".6"/>
+          <line x1="235" y1="308" x2="235" y2="318" stroke="#8a8070" stroke-width="1" opacity=".6"/>
+          <line x1="252" y1="308" x2="252" y2="318" stroke="#8a8070" stroke-width="1" opacity=".6"/>
+          <line x1="269" y1="308" x2="269" y2="318" stroke="#8a8070" stroke-width="1" opacity=".6"/>
+          <!-- Warm glow -->
+          <ellipse cx="265" cy="260" rx="180" ry="22" fill="#c9a84c" opacity=".05"/>
+          <text x="265" y="95" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#c9a84c" opacity=".7">Study Resources</text>
+        </svg>
+      </div>
+      <div class="gallery-caption">
+        <strong>Study Resources</strong>
+        Custom worksheets and revision notes for every topic.
+      </div>
+    </div>
+
+    <!-- 4: Group Workshop -->
+    <div class="gallery-item">
+      <div class="gallery-img">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 530 330" style="width:100%;height:100%;display:block">
+          <defs>
+            <linearGradient id="g4bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#161818"/><stop offset="100%" stop-color="#0e1010"/></linearGradient>
+          </defs>
+          <rect width="530" height="330" fill="url(#g4bg)"/>
+          <!-- Whiteboard on wall -->
+          <rect x="80" y="30" width="370" height="180" rx="6" fill="#e8e4d8" opacity=".95"/>
+          <rect x="88" y="38" width="354" height="164" rx="3" fill="#f0ece4"/>
+          <!-- Board content -->
+          <text x="160" y="72" font-family="Georgia,serif" font-style="italic" font-size="22" fill="#2a2820">The Learning Journey</text>
+          <line x1="105" y1="85" x2="425" y2="85" stroke="#c0b098" stroke-width="1.5" opacity=".5"/>
+          <path d="M110,120 L180,100 L250,130 L320,105 L390,120" stroke="#c9a84c" stroke-width="2.5" fill="none"/>
+          <circle cx="180" cy="100" r="4" fill="#c9a84c"/>
+          <circle cx="250" cy="130" r="4" fill="#c9a84c"/>
+          <circle cx="320" cy="105" r="4" fill="#c9a84c"/>
+          <line x1="100" y1="148" x2="240" y2="148" stroke="#8a8070" stroke-width="1" opacity=".4"/>
+          <line x1="100" y1="162" x2="200" y2="162" stroke="#8a8070" stroke-width="1" opacity=".4"/>
+          <line x1="100" y1="176" x2="220" y2="176" stroke="#8a8070" stroke-width="1" opacity=".4"/>
+          <!-- Students seated at table -->
+          <!-- Table -->
+          <ellipse cx="265" cy="300" rx="200" ry="30" fill="#2a2010" opacity=".9"/>
+          <!-- Student 1 -->
+          <circle cx="120" cy="255" r="20" fill="#c4986a"/>
+          <rect x="98" y="277" width="44" height="40" rx="12" fill="#3a4858"/>
+          <!-- Student 2 -->
+          <circle cx="210" cy="250" r="20" fill="#d4a870"/>
+          <rect x="188" y="272" width="44" height="40" rx="12" fill="#4a3820"/>
+          <!-- Student 3 — standing/teacher -->
+          <circle cx="310" cy="240" r="22" fill="#b87840"/>
+          <rect x="286" y="264" width="48" height="48" rx="12" fill="#2a3040"/>
+          <!-- Student 4 -->
+          <circle cx="415" cy="252" r="20" fill="#c09060"/>
+          <rect x="393" y="274" width="44" height="40" rx="12" fill="#483828"/>
+          <!-- Notebooks on table -->
+          <rect x="140" y="285" width="50" height="32" rx="2" fill="#e8e0cc" opacity=".6" transform="rotate(-8 165 301)"/>
+          <rect x="250" y="280" width="50" height="32" rx="2" fill="#c9a84c" opacity=".4" transform="rotate(5 275 296)"/>
+          <text x="265" y="22" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#c9a84c" opacity=".7">Group Workshop</text>
+        </svg>
+      </div>
+      <div class="gallery-caption">
+        <strong>Group Workshop</strong>
+        Small-group sessions for collaborative learning.
+      </div>
+    </div>
+
+    <!-- 5: Exam Preparation -->
+    <div class="gallery-item">
+      <div class="gallery-img">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 530" style="width:100%;height:100%;display:block">
+          <defs>
+            <linearGradient id="g5bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#161412"/><stop offset="100%" stop-color="#0e0c0a"/></linearGradient>
+          </defs>
+          <rect width="900" height="530" fill="url(#g5bg)"/>
+          <!-- Window with daylight -->
+          <rect x="650" y="20" width="200" height="280" rx="4" fill="#1a2535" opacity=".9"/>
+          <rect x="660" y="30" width="80" height="260" rx="2" fill="#c9a84c" opacity=".07"/>
+          <rect x="750" y="30" width="90" height="260" rx="2" fill="#c9a84c" opacity=".07"/>
+          <!-- Desk -->
+          <rect x="50" y="360" width="800" height="16" rx="4" fill="#3a2e1a"/>
+          <rect x="100" y="376" width="18" height="120" fill="#2a2010"/>
+          <rect x="780" y="376" width="18" height="120" fill="#2a2010"/>
+          <!-- Exam paper main -->
+          <rect x="180" y="240" width="280" height="190" rx="4" fill="#f0ece4" opacity=".95" transform="rotate(-3 320 335)"/>
+          <text x="210" y="272" font-family="Georgia,serif" font-size="14" fill="#2a2820" transform="rotate(-3 210 272)">FINAL EXAMINATION</text>
+          <line x1="200" y1="285" x2="440" y2="278" stroke="#c0b098" stroke-width="1" opacity=".5"/>
+          <text x="208" y="302" font-family="Georgia,serif" font-size="10" fill="#6a6050" transform="rotate(-3 208 302)">Name: ________________</text>
+          <text x="208" y="320" font-family="Georgia,serif" font-size="10" fill="#6a6050" transform="rotate(-3 208 320)">1. Solve for x: 3x + 7 = 22</text>
+          <text x="208" y="340" font-family="Georgia,serif" font-size="10" fill="#6a6050" transform="rotate(-3 208 340)">2. Find the derivative of f(x)</text>
+          <text x="208" y="360" font-family="Georgia,serif" font-size="10" fill="#6a6050" transform="rotate(-3 208 360)">3. Balance the equation...</text>
+          <!-- Second sheet -->
+          <rect x="240" y="255" width="240" height="180" rx="4" fill="#e8e0cc" opacity=".5" transform="rotate(5 360 345)"/>
+          <!-- Pen writing -->
+          <rect x="430" y="310" width="9" height="65" rx="3" transform="rotate(25 434 342)" fill="#1a1a28"/>
+          <rect x="432" y="368" width="5" height="14" rx="2" transform="rotate(25 434 375)" fill="#c9a84c"/>
+          <!-- Student hand/arm area -->
+          <ellipse cx="440" cy="380" rx="35" ry="18" fill="#c49060" opacity=".6"/>
+          <!-- Student figure -->
+          <circle cx="340" cy="190" r="38" fill="#c4906a" opacity=".6"/>
+          <circle cx="340" cy="178" r="28" fill="#d4a870"/>
+          <rect x="305" y="210" width="70" height="85" rx="18" fill="#2a3848"/>
+          <!-- Reference books -->
+          <rect x="530" y="295" width="30" height="68" rx="2" fill="#c9a84c" opacity=".8"/>
+          <rect x="564" y="300" width="28" height="63" rx="2" fill="#6a4a18"/>
+          <rect x="596" y="308" width="26" height="55" rx="2" fill="#3a5070"/>
+          <!-- Clock on wall -->
+          <circle cx="500" cy="90" r="38" fill="#1e2028" stroke="#3a3828" stroke-width="3"/>
+          <circle cx="500" cy="90" r="32" fill="#0e1018"/>
+          <line x1="500" y1="90" x2="500" y2="65" stroke="#c9a84c" stroke-width="2.5"/>
+          <line x1="500" y1="90" x2="520" y2="95" stroke="#e8dfc8" stroke-width="2"/>
+          <circle cx="500" cy="90" r="3" fill="#c9a84c"/>
+          <!-- Lamp glow -->
+          <ellipse cx="360" cy="375" rx="140" ry="20" fill="#c9a84c" opacity=".07"/>
+          <text x="450" y="505" text-anchor="middle" font-family="Georgia,serif" font-size="18" fill="#c9a84c" opacity=".7">Exam Preparation</text>
+        </svg>
+      </div>
+      <div class="gallery-caption">
+        <strong>Exam Preparation</strong>
+        Targeted mock exams and performance feedback.
+      </div>
+    </div>
+
+    <!-- 6: Student Achievements -->
+    <div class="gallery-item">
+      <div class="gallery-img">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 530 330" style="width:100%;height:100%;display:block">
+          <defs>
+            <linearGradient id="g6bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#141210"/><stop offset="100%" stop-color="#1a1610"/></linearGradient>
+            <radialGradient id="g6glow" cx="50%" cy="55%" r="45%">
+              <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.22"/>
+              <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="530" height="330" fill="url(#g6bg)"/>
+          <rect width="530" height="330" fill="url(#g6glow)"/>
+          <!-- Trophy -->
+          <path d="M215,240 Q215,270 265,275 Q315,270 315,240 L300,150 L230,150Z" fill="#c9a84c" opacity=".9"/>
+          <rect x="245" y="270" width="40" height="20" rx="3" fill="#a88030"/>
+          <rect x="225" y="288" width="80" height="12" rx="4" fill="#c9a84c" opacity=".8"/>
+          <!-- Trophy handles -->
+          <path d="M230,175 Q200,175 198,195 Q196,215 218,215" stroke="#c9a84c" stroke-width="8" fill="none" opacity=".8"/>
+          <path d="M300,175 Q330,175 332,195 Q334,215 312,215" stroke="#c9a84c" stroke-width="8" fill="none" opacity=".8"/>
+          <!-- Star on trophy -->
+          <polygon points="265,170 270,185 285,185 274,194 278,210 265,200 252,210 256,194 245,185 260,185" fill="#f0e8c0" opacity=".9"/>
+          <!-- Confetti/stars celebration -->
+          <circle cx="100" cy="80" r="5" fill="#c9a84c" opacity=".6"/>
+          <circle cx="150" cy="50" r="4" fill="#e2c97e" opacity=".5"/>
+          <circle cx="400" cy="70" r="5" fill="#c9a84c" opacity=".6"/>
+          <circle cx="440" cy="100" r="4" fill="#e2c97e" opacity=".5"/>
+          <circle cx="80" cy="160" r="3" fill="#e2c97e" opacity=".4"/>
+          <circle cx="460" cy="150" r="3" fill="#c9a84c" opacity=".4"/>
+          <rect x="120" y="120" width="8" height="8" rx="1" fill="#c9a84c" opacity=".5" transform="rotate(20 124 124)"/>
+          <rect x="390" y="130" width="8" height="8" rx="1" fill="#e2c97e" opacity=".5" transform="rotate(45 394 134)"/>
+          <rect x="170" y="60" width="6" height="6" rx="1" fill="#c9a84c" opacity=".4" transform="rotate(30 173 63)"/>
+          <rect x="350" y="50" width="6" height="6" rx="1" fill="#e2c97e" opacity=".4" transform="rotate(15 353 53)"/>
+          <!-- Certificate / paper -->
+          <rect x="80" y="190" width="120" height="90" rx="4" fill="#f0ece4" opacity=".85" transform="rotate(-10 140 235)"/>
+          <text x="90" y="218" font-family="Georgia,serif" font-size="9" fill="#6a6050" transform="rotate(-10 90 218)">CERTIFICATE OF</text>
+          <text x="93" y="230" font-family="Georgia,serif" font-size="9" fill="#6a6050" transform="rotate(-10 93 230)">EXCELLENCE</text>
+          <line x1="88" y1="240" x2="188" y2="232" stroke="#c0b098" stroke-width="1" opacity=".5"/>
+          <!-- Second cert -->
+          <rect x="330" y="195" width="120" height="90" rx="4" fill="#f0ece4" opacity=".75" transform="rotate(8 390 240)"/>
+          <text x="345" y="222" font-family="Georgia,serif" font-size="9" fill="#6a6050" transform="rotate(8 345 222)">BAND 6 RESULT</text>
+          <!-- Student figure smiling -->
+          <circle cx="265" cy="80" r="30" fill="#c49060" opacity=".4"/>
+          <circle cx="265" cy="72" r="22" fill="#d4a870"/>
+          <!-- Cap -->
+          <rect x="246" y="48" width="38" height="6" rx="2" fill="#1a1a28"/>
+          <polygon points="246,48 284,48 275,38 255,38" fill="#1a1a28"/>
+          <rect x="275" y="42" width="2" height="14" fill="#c9a84c"/>
+          <circle cx="276" cy="57" r="3" fill="#c9a84c"/>
+          <rect x="243" y="96" width="44" height="50" rx="12" fill="#2a3040"/>
+          <!-- Glow under trophy -->
+          <ellipse cx="265" cy="295" rx="80" ry="14" fill="#c9a84c" opacity=".15"/>
+          <text x="265" y="320" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#c9a84c" opacity=".7">Student Achievements</text>
+        </svg>
+      </div>
+      <div class="gallery-caption">
+        <strong>Student Achievements</strong>
+        Celebrating milestones, big and small.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testimonials-header">
+    <div class="testimonials-header-left">
+      <p class="section-label">Testimonials</p>
+      <h2 class="section-title">What Families<br>Are Saying</h2>
+    </div>
+    <p class="testimonials-subtext">Real words from students and parents who've experienced the difference that personalised tutoring makes.</p>
+  </div>
+  <div class="testimonials-grid">
+
+    <div class="testimonial-card">
+      <div class="testimonial-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="testimonial-quote">Christopher has completely transformed our daughter's relationship with Mathematics. She went from dreading exams to genuinely enjoying problem-solving. His patience and ability to explain concepts in different ways is extraordinary.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">👩</div>
+        <div>
+          <div class="author-name">Sarah Mitchell</div>
+          <div class="author-detail">Parent of Year 10 student</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="testimonial-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="testimonial-quote">I was really struggling with HSC Chemistry and felt completely lost. After just six sessions with Christopher I felt confident enough to tackle past papers on my own. I ended up getting a Band 6 — something I never thought possible.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">👨</div>
+        <div>
+          <div class="author-name">Liam Nguyen</div>
+          <div class="author-detail">HSC student, graduated 2024</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="testimonial-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="testimonial-quote">We've tried other tutors before, but none came close to Christopher's dedication. He doesn't just teach the content — he teaches our son how to think, how to study, and how to believe in himself. Worth every cent.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">👨</div>
+        <div>
+          <div class="author-name">David Okafor</div>
+          <div class="author-detail">Parent of Year 8 student</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <p class="section-label">Get in Touch</p>
+      <h2 class="section-title">Let's start your<br>learning journey</h2>
+      <div class="divider"></div>
+      <p>Ready to take the next step? Send me a message and I'll get back to you within 24 hours to discuss your goals and how I can help you achieve them.</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="contact-item-icon">✉️</div>
+          <div class="contact-item-text">
+            <strong>Email</strong>
+            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0e6d667c677d7a617e666b7c4e656b62687a7b7a617c206d6163">[email&#160;protected]</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.87a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/>
+            </svg>
+          </div>
+          <div class="contact-item-text">
+            <strong>Phone</strong>
+            +61 400 000 000
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-text">
+            <strong>Location</strong>
+            Sydney, NSW — In-person &amp; Online
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🕐</div>
+          <div class="contact-item-text">
+            <strong>Availability</strong>
+            Mon–Sat, 8am–8pm
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="Jane Smith" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="jane@email.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject Area</label>
+          <select id="subject">
+            <option value="" disabled selected>Select a subject…</option>
+            <option>Mathematics</option>
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>English</option>
+            <option>Biology</option>
+            <option>Test Preparation</option>
+            <option>Study Skills</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" placeholder="Tell me a bit about your learning goals, year level, and preferred session format…"></textarea>
+        </div>
+        <div class="form-submit">
+          <a href="#" class="btn btn-primary">Send Message →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Christopher Kelf. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#hero">Home</a>
+    <a hr
